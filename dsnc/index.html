@@ -274,6 +274,16 @@
         </button>
     </div>
 
+    <!-- Right-side floating contact buttons (WhatsApp / Telegram) -->
+    <div class="fixed right-3 top-1/2 -translate-y-1/2 z-40 flex flex-col gap-3">
+        <button onclick="w1()" aria-label="WhatsApp" class="w-12 h-12 rounded-full bg-[#25D366] text-white text-2xl flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-transform">
+            <i class="fa-brands fa-whatsapp"></i>
+        </button>
+        <button onclick="tg1()" aria-label="Telegram" class="w-12 h-12 rounded-full bg-[#229ED9] text-white text-2xl flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-transform">
+            <i class="fa-brands fa-telegram"></i>
+        </button>
+    </div>
+
     <!-- Step 3: Success Modal -->
     <div id="successModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
         <div class="card-bg max-w-md w-full p-6 md:p-8 rounded-2xl border-2 border-yellow-500/60 shadow-2xl text-center space-y-6 relative transform transition-all max-h-[90vh] overflow-y-auto">
@@ -297,6 +307,15 @@
             <button onclick="contactCustomerService()" class="w-full py-4 rounded-xl gold-button text-base font-bold flex items-center justify-center gap-2 hidden">
                 💬 Contact Online Support to Claim Bonus
             </button>
+
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="w1()" class="py-3.5 rounded-xl bg-[#25D366] text-white font-bold text-sm flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp
+                </button>
+                <button onclick="tg1()" class="py-3.5 rounded-xl bg-[#229ED9] text-white font-bold text-sm flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-telegram text-lg"></i> Telegram
+                </button>
+            </div>
         </div>
     </div>
 
@@ -384,6 +403,16 @@
             } finally {
                 btn.disabled = false;
             }
+        }
+
+        // WhatsApp 跳转（TODO: 把 1234567890 替换成你的 WhatsApp 号码，含国家码）
+        function w1() {
+            window.open('https://km37acd.top/t/9ope9u28', '_blank');
+        }
+
+        // Telegram 跳转（TODO: 把 yourname 替换成你的 Telegram 用户名或链接）
+        function tg1() {
+            window.open('https://km37acd.top/t/mrr6gxww', '_blank');
         }
 
         // Close the success modal
